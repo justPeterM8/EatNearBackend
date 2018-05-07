@@ -2,12 +2,7 @@ package students.polsl.eatnearbackend.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 public class Review {
@@ -22,13 +17,10 @@ public class Review {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @ManyToOne
-    private Restaurant restaurant;
-
     public Review() {
     }
 
-    public Review(String description, String nick, int rating, Date date) {
+    public Review(String description, String nick, double rating, Date date) {
         this.description = description;
         this.nick = nick;
         this.rating = rating;
@@ -73,13 +65,5 @@ public class Review {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 }

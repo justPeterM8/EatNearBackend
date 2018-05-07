@@ -2,25 +2,24 @@ package students.polsl.eatnearbackend.model;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
-public class Restaurant {
+public class Restaurant implements Comparable<Restaurant>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
     private String name;
     private double localizationLongitude;
     private double localizationLatitude;
     private String restaurantType;
 
-    @OneToMany(mappedBy = "restaurant")
-    private Set<Review> reviews = new HashSet();
+    @Transient
+    private int distance;
+
+    @OneToMany
+    private Set<Review> reviews;
 
     public Restaurant() {
     }
@@ -78,5 +77,18 @@ public class Restaurant {
 
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public int compareTo(Restaurant o) {
+        return Integer.compare(this.getDistance(), o.getDistance());
     }
 }
