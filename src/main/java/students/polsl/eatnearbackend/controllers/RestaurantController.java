@@ -16,8 +16,13 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    @GetMapping("/restaurants")
+    @GetMapping("/allRestaurants")
     public List<Restaurant> getAllRestaurants(){
-        return restaurantService.getAllRestaurantsSortedByDistance(50.309855, 18.785851);
+        return restaurantService.getAllRestaurantsSortedByDistance(50.294492, 18.671380);
+    }
+
+    @GetMapping("/nearRestaurants")
+    public List<Restaurant> getAllNearRestaurants(){
+        return restaurantService.getAllRestaurantsSortedByDistance(50.294492, 18.671380, 500);
     }
 }

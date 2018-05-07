@@ -28,31 +28,98 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 
     private void initData(){
         //first restaurant
-//        Restaurant piwniczka = new Restaurant("Piwniczka", 50.291301, 18.672197, "Italian");
-        Restaurant piwniczka = new Restaurant("Piwniczka", 50.309855, 18.785851, "Italian");
+        Restaurant piwniczka = new Restaurant(
+                "Piwniczka",
+                50.291301,
+                18.672197,
+                "Italian"
+        );
         Review good = new Review(
                 "Quite good food",
                 "Jan",
                 3.5,
-                Date.from(LocalDate.now()
+                Date.from(
+                        LocalDate.now()
                         .atStartOfDay(ZoneId.systemDefault())
                         .toInstant()));
         Review bad = new Review(
-                "Didn't enjoy it at all",
+                "The food was bad",
                 "Barbara",
                 3.5,
-                Date.from(LocalDate.of(2000, 10, 11)
+                Date.from(
+                        LocalDate.of(2000, 10, 11)
                         .atStartOfDay(ZoneId.systemDefault())
                         .toInstant()));
 
-        Set<Review> reviews = new HashSet<>();
-        reviews.add(good);
-        reviews.add(bad);
-        piwniczka.setReviews(reviews);
+        Set<Review> reviewsPiwniczka = new HashSet<>();
+        reviewsPiwniczka.add(good);
+        reviewsPiwniczka.add(bad);
+        piwniczka.setReviews(reviewsPiwniczka);
         reviewRepository.save(good);
         reviewRepository.save(bad);
         restaurantRepository.save(piwniczka);
 
+        //second restaurant
+        Restaurant szamma = new Restaurant("Szamma",
+                50.294006,
+                18.664711,
+                "International"
+        );
+        Review superGood = new Review(
+                "The food was fantastic",
+                "Marek",
+                5,
+                Date.from(
+                        LocalDate.of(2017, 12, 2)
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()));
+        Review reallyBad = new Review(
+                "Didn't enjoy it at all, terrible food",
+                "Katarzyna",
+                1,
+                Date.from(
+                        LocalDate.of(2010, 11, 11)
+                        .atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()));
+
+        Set<Review> reviewsSzamma  = new HashSet<>();
+        reviewsSzamma.add(superGood);
+        reviewsSzamma.add(reallyBad);
+        szamma.setReviews(reviewsSzamma);
+        reviewRepository.save(superGood);
+        reviewRepository.save(reallyBad);
+        restaurantRepository.save(szamma);
+
+        //third restaurant
+        Restaurant trattoria = new Restaurant("Trattoria",
+                50.279670,
+                18.586554,
+                "Italian"
+        );
+        Review reallyGood = new Review(
+                "The food was quite good, but could be better",
+                "Marcin",
+                4,
+                Date.from(
+                        LocalDate.of(2018, 1, 4)
+                                .atStartOfDay(ZoneId.systemDefault())
+                                .toInstant()));
+        Review quiteBad = new Review(
+                "It was't awful, but I did't finish my meal",
+                "Rafal",
+                1,
+                Date.from(
+                        LocalDate.of(2010, 11, 11)
+                                .atStartOfDay(ZoneId.systemDefault())
+                                .toInstant()));
+
+        Set<Review> reviewsTrattoria  = new HashSet<>();
+        reviewsTrattoria.add(reallyGood);
+        reviewsTrattoria.add(quiteBad);
+        trattoria.setReviews(reviewsTrattoria);
+        reviewRepository.save(reallyGood);
+        reviewRepository.save(quiteBad);
+        restaurantRepository.save(trattoria);
     }
 
     @Override
