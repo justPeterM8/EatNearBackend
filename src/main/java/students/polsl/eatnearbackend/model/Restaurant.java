@@ -90,4 +90,17 @@ public class Restaurant implements Comparable<Restaurant>{
     public int compareTo(Restaurant o) {
         return Double.compare(this.getDistance(), o.getDistance());
     }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", localizationLongitude=" + localizationLongitude +
+                ", localizationLatitude=" + localizationLatitude +
+                ", restaurantType='" + restaurantType + '\'' +
+                ", distance=" + distance +
+                ", reviews=" + reviews +
+                '}';
+    }
 }
