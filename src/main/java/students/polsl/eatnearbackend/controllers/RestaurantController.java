@@ -8,13 +8,11 @@ import students.polsl.eatnearbackend.model.Restaurant;
 import students.polsl.eatnearbackend.repositories.RestaurantRepository;
 import students.polsl.eatnearbackend.services.RestaurantService;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 public class RestaurantController {
     private RestaurantService restaurantService;
     private RestaurantRepository restaurantRepository;
-    private Logger logger = Logger.getLogger("RestaurantController.class");
 
     @Autowired
     public RestaurantController(RestaurantService restaurantService, RestaurantRepository restaurantRepository) {
@@ -34,7 +32,7 @@ public class RestaurantController {
 
     @PostMapping("/addRestaurant")
     public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody Restaurant restaurant){
-        if (!restaurantService.isRestaurantlreadyAvailable(restaurant)){
+        if (!restaurantService.isRestaurantlreadyInDatabase(restaurant)){
             Restaurant savedRestaurant = restaurantRepository.save(restaurant);
             return ResponseEntity.ok(savedRestaurant);
         }else{

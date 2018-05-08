@@ -5,12 +5,10 @@ import students.polsl.eatnearbackend.model.Restaurant;
 import students.polsl.eatnearbackend.repositories.RestaurantRepository;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
-    private Logger logger = Logger.getLogger("RestaurantService.class");
     private RestaurantRepository restaurantRepository;
 
     @Autowired
@@ -48,17 +46,13 @@ public class RestaurantService {
                     .collect(Collectors.toList());
     }
 
-    public boolean isRestaurantlreadyAvailable(Restaurant restaurant){
-        return restaurantRepository//checking if restaurant with such name already exists
+    public boolean isRestaurantlreadyInDatabase(Restaurant restaurant){
+        List<Restaurant> list = restaurantRepository//checking if restaurant with such name already exists
                 .findAll()
                 .stream()
                 .filter(listRestaurant -> listRestaurant.getName().equals(restaurant.getName()))
-                .anyMatch(listRestaurant -> getDistanceFromLatLong(
-                        listRestaurant.getLocalizationLatitude(),
-                        listRestaurant.getLocalizationLongitude(),
-                        restaurant.getLocalizationLatitude(),
-                        restaurant.getLocalizationLongitude()
-                        ) <= 50);
+                .collect(Collectors.toList());
+        return list.size() != 0;
     }
 
     private long getDistanceFromLatLong(double lat1, double lon1, double lat2, double lon2) {
