@@ -5,38 +5,32 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import students.polsl.eatnearbackend.model.Restaurant;
-import students.polsl.eatnearbackend.repositories.RestaurantRepository;
 import students.polsl.eatnearbackend.services.RestaurantService;
 import java.util.List;
 
 @RestController
 public class RestaurantController {
     private RestaurantService restaurantService;
-    private RestaurantRepository restaurantRepository;
 
     @Autowired
-    public RestaurantController(RestaurantService restaurantService, RestaurantRepository restaurantRepository) {
+    public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
-        this.restaurantRepository = restaurantRepository;
     }
 
-    @GetMapping("/allRestaurants/{latitude}/{longitude}")
-    public List<Restaurant> getAllRestaurants(@PathVariable("latitude") double latitude, @PathVariable("longitude") double longitude){
+    @GetMapping("/allRestaurants")
+    public List<Restaurant> getAllRestaurants(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude){
         return restaurantService.getAllRestaurantsSortedByDistance(latitude, longitude);
     }
 
-    @GetMapping("/nearRestaurants/{latitude}/{longitude}/{distance}")
-    public List<Restaurant> getAllNearRestaurants(@PathVariable("latitude") double latitude, @PathVariable("longitude") double longitude, @PathVariable("distance") long distance){
+    @GetMapping("/nearRestaurants")
+    public List<Restaurant> getAllNearRestaurants(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude, @RequestParam("distance") long distance){
         return restaurantService.getAllRestaurantsSortedByDistance(latitude, longitude, distance);
     }
 
     @PostMapping("/addRestaurant")
-    public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody Restaurant restaurant){
-        if (!restaurantService.isRestaurantlreadyInDatabase(restaurant)){
-            Restaurant savedRestaurant = restaurantRepository.save(restaurant);
-            return ResponseEntity.ok(savedRestaurant);
-        }else{
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    public ResponseEntity createNewRestaurant(@RequestBody Restaurant restaurant){
+            restaurantService.performRestaurantCreation(restaurant);
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+

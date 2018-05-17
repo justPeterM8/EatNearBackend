@@ -1,6 +1,7 @@
 package students.polsl.eatnearbackend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import students.polsl.eatnearbackend.exceptions.RestaurantAlreadyInDatabaseException;
 import students.polsl.eatnearbackend.model.Restaurant;
 import students.polsl.eatnearbackend.repositories.RestaurantRepository;
 import java.util.Collections;
@@ -8,8 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RestaurantService {
-    private RestaurantRepository restaurantRepository;
+public class RestaurantService extends BaseService{
 
     @Autowired
     public RestaurantService(RestaurantRepository restaurantRepository) {
@@ -32,6 +32,15 @@ public class RestaurantService {
         return filteredRestaurants;
     }
 
+    public void performRestaurantCreation(Restaurant restaurant){
+        if (!isRestaurantAlreadyInDatabase(restaurant)){
+            Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+        }else{
+            throw new RestaurantAlreadyInDatabaseException();
+        }
+    }
+
+
     private List<Restaurant> injectDistancesIntoRestaurants(List<Restaurant> restaurants, double usersLatitude, double usersLongitude){
             return restaurants
                     .stream()
@@ -46,7 +55,7 @@ public class RestaurantService {
                     .collect(Collectors.toList());
     }
 
-    public boolean isRestaurantlreadyInDatabase(Restaurant restaurant){
+    public boolean isRestaurantAlreadyInDatabase(Restaurant restaurant){
         List<Restaurant> list = restaurantRepository//checking if restaurant with such name already exists
                 .findAll()
                 .stream()

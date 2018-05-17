@@ -17,8 +17,7 @@ public class Review {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    public Review() {
-    }
+    public Review() {}
 
     public Review(String description, String nick, double rating, Date date) {
         this.description = description;
