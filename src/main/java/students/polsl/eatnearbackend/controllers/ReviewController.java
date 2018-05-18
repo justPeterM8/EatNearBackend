@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import students.polsl.eatnearbackend.model.Review;
 import students.polsl.eatnearbackend.services.ReviewService;
 
+import java.util.List;
+
 @RestController
 public class ReviewController {
     private ReviewService reviewService;
@@ -14,6 +16,11 @@ public class ReviewController {
     @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
+    }
+
+    @GetMapping("/reviews")
+    public ResponseEntity<List<Review>>createNewRestaurant(@RequestParam("restaurantName") String restaurantName){
+        return ResponseEntity.ok(reviewService.getReviewsFromSpecificRestaurant(restaurantName));
     }
 
     @PostMapping("/addReview")

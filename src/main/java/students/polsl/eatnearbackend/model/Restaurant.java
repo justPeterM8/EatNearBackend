@@ -1,6 +1,5 @@
 package students.polsl.eatnearbackend.model;
 
-import java.util.Optional;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -13,6 +12,7 @@ public class Restaurant implements Comparable<Restaurant>{
     private String name;
     private double localizationLongitude;
     private double localizationLatitude;
+    private String address;
     private String restaurantType;
 
     @Transient
@@ -27,10 +27,11 @@ public class Restaurant implements Comparable<Restaurant>{
     public Restaurant() {
     }
 
-    public Restaurant(String name, double localizationLatitude, double localizationLongitude, String restaurantType) {
+    public Restaurant(String name, double localizationLatitude, double localizationLongitude, String address, String restaurantType) {
         this.name = name;
         this.localizationLongitude = localizationLongitude;
         this.localizationLatitude = localizationLatitude;
+        this.address = address;
         this.restaurantType = restaurantType;
     }
 
@@ -96,6 +97,14 @@ public class Restaurant implements Comparable<Restaurant>{
 
     public void setOverallRating(double overallRating) {
         this.overallRating = overallRating;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

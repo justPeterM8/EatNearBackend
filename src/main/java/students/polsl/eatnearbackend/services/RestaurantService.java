@@ -1,6 +1,7 @@
 package students.polsl.eatnearbackend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import students.polsl.eatnearbackend.exceptions.NoSuchRestaurantException;
 import students.polsl.eatnearbackend.exceptions.RestaurantAlreadyInDatabaseException;
 import students.polsl.eatnearbackend.model.Restaurant;
 import students.polsl.eatnearbackend.model.Review;
@@ -36,7 +37,7 @@ public class RestaurantService extends BaseService{
 
     public void performRestaurantCreation(Restaurant restaurant){
         if (!isRestaurantAlreadyInDatabase(restaurant)){
-            Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+            restaurantRepository.save(restaurant);
         }else{
             throw new RestaurantAlreadyInDatabaseException();
         }
@@ -71,7 +72,13 @@ public class RestaurantService extends BaseService{
                 })
                 .collect(Collectors.toList());
     }
-
+    Restaurant getRestaurantFromDbByName(String restaurantName){
+        Restaurant searchedRestaurant = restaurantRepository.findByName(restaurantName);
+        if (searchedRestaurant == null)
+            throw new NoSuchRestaurantException();
+        else
+            return searchedRestaurant;
+    }
     private boolean isRestaurantAlreadyInDatabase(Restaurant restaurant){
         List<Restaurant> list = restaurantRepository//checking if restaurant with such name already exists
                 .findAll()

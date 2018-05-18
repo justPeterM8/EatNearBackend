@@ -11,7 +11,7 @@ public class Review {
     @GeneratedValue
     private Long id;
     private String description;
-    private String nick;
+    private String author;
     private double rating;
 
     @Temporal(TemporalType.DATE)
@@ -21,7 +21,7 @@ public class Review {
 
     public Review(String description, String nick, double rating, Date date) {
         this.description = description;
-        this.nick = nick;
+        this.author = nick;
         this.rating = rating;
         this.date = date;
     }
@@ -42,12 +42,12 @@ public class Review {
         this.description = description;
     }
 
-    public String getNick() {
-        return nick;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public double getRating() {

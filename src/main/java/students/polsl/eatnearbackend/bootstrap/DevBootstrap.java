@@ -30,9 +30,9 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         //first restaurant
         Restaurant piwniczka = new Restaurant(
                 "Piwniczka",
-                50.291301,
-                18.672197,
-                "Italian"
+                50.291233,
+                18.672021,
+                "Łużycka 2e, 44-100 Gliwice", "Italian"
         );
         Review good = new Review(
                 "Quite good food",
@@ -63,7 +63,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         Restaurant szamma = new Restaurant("Szamma",
                 50.294006,
                 18.664711,
-                "International"
+                "NU1, Raciborska 1, Gliwice", "International"
         );
         Review superGood = new Review(
                 "The food was fantastic",
@@ -94,7 +94,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
         Restaurant trattoria = new Restaurant("Trattoria",
                 50.279670,
                 18.586554,
-                "Italian"
+                "Daszyńskiego 540, 44-100 Gliwice", "Italian"
         );
         Review reallyGood = new Review(
                 "The food was quite good, but could be better",
