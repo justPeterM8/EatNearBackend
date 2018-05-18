@@ -32,5 +32,10 @@ public class RestaurantController {
             restaurantService.performRestaurantCreation(restaurant);
             return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/")
+    public String test(){
+        return "ok";
+    }
 }
 

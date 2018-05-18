@@ -1,5 +1,6 @@
 package students.polsl.eatnearbackend.model;
 
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.*;
 
@@ -19,6 +20,9 @@ public class Restaurant implements Comparable<Restaurant>{
 
     @OneToMany
     private Set<Review> reviews;
+
+    @Transient
+    private double overallRating;
 
     public Restaurant() {
     }
@@ -84,6 +88,14 @@ public class Restaurant implements Comparable<Restaurant>{
 
     public void setDistance(long distance) {
         this.distance = distance;
+    }
+
+    public double getOverallRating() {
+        return overallRating;
+    }
+
+    public void setOverallRating(double overallRating) {
+        this.overallRating = overallRating;
     }
 
     @Override

@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import students.polsl.eatnearbackend.exceptions.RestaurantAlreadyInDatabaseException;
 import students.polsl.eatnearbackend.model.Restaurant;
+import students.polsl.eatnearbackend.model.Review;
 import students.polsl.eatnearbackend.repositories.RestaurantRepository;
 import java.util.Collections;
 import java.util.List;
@@ -18,10 +19,11 @@ public class RestaurantService extends BaseService{
 
     public List<Restaurant> getAllRestaurantsSortedByDistance(double usersLatitude, double usersLongitude, long... maxDistance){
         List<Restaurant> restaurantsWithDistances = injectDistancesIntoRestaurants(restaurantRepository.findAll(), usersLatitude, usersLongitude);
+        List<Restaurant> restaurantsCompleteData = injectOverallRatingIntoRestaurants(restaurantsWithDistances);
         if (maxDistance.length != 0)
-            restaurantsWithDistances = filterNearRestaurantsByDistance(restaurantsWithDistances, maxDistance[0]);
-        Collections.sort(restaurantsWithDistances);
-        return restaurantsWithDistances;
+            restaurantsCompleteData = filterNearRestaurantsByDistance(restaurantsCompleteData, maxDistance[0]);
+        Collections.sort(restaurantsCompleteData);
+        return restaurantsCompleteData;
     }
 
     private List<Restaurant> filterNearRestaurantsByDistance(List<Restaurant> restaurants, long distance){
@@ -55,7 +57,22 @@ public class RestaurantService extends BaseService{
                     .collect(Collectors.toList());
     }
 
-    public boolean isRestaurantAlreadyInDatabase(Restaurant restaurant){
+    private List<Restaurant> injectOverallRatingIntoRestaurants(List<Restaurant> restaurants){
+        return restaurants
+                .stream()
+                .peek(restaurant -> {
+                    double overall = restaurant
+                                .getReviews()
+                                .stream()
+                                .mapToDouble(Review::getRating)
+                                .average()
+                                .orElse(0.0);
+                    restaurant.setOverallRating(overall);
+                })
+                .collect(Collectors.toList());
+    }
+
+    private boolean isRestaurantAlreadyInDatabase(Restaurant restaurant){
         List<Restaurant> list = restaurantRepository//checking if restaurant with such name already exists
                 .findAll()
                 .stream()
